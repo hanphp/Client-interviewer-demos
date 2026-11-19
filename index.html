@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en-MY">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; form-action 'none'; base-uri 'none'">
+<title>Interviewer Registration | Pinnacle Analytics</title>
+<style>
+:root{color-scheme:light;font-family:"Segoe UI Variable Text","Segoe UI",Inter,system-ui,-apple-system,sans-serif;
+--ink:#0f2a5c;--muted:#3d5a8c;--blue:#2257b3;--blue-d:#173f87;--bg:#edf2fb;--sd:rgba(34,87,179,.22);
+--glass:rgba(255,255,255,.62);--line:rgba(34,87,179,.2);--danger:#a32222;
+--raise:7px 7px 16px var(--sd),-7px -7px 16px #fff;--raise-s:4px 4px 10px var(--sd),-4px -4px 10px #fff;--press:inset 4px 4px 9px var(--sd),inset -4px -4px 9px #fff}
+*{box-sizing:border-box}[id]{scroll-margin-top:90px}
+html{background:var(--bg)}
+body{margin:0;color:var(--ink);line-height:1.5}
+body::before,body::after{content:"";position:fixed;border-radius:50%;z-index:-1;pointer-events:none}
+body::before{width:520px;height:520px;left:-170px;top:-130px;background:rgba(34,87,179,.16)}
+body::after{width:440px;height:440px;right:-150px;top:42%;background:rgba(34,87,179,.1)}
+a{color:var(--blue)}.wrap{width:min(100% - 40px,920px);margin:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.glass{background:var(--glass);border:1px solid #fff;box-shadow:var(--raise);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+
+header{padding:18px 0 0;position:sticky;top:0;z-index:20}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:9px 10px 9px 18px;border-radius:999px;box-shadow:var(--raise-s)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:750;font-size:18px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.logo{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:#fff;background:var(--blue)}
+.back{font-size:14px;font-weight:600;text-decoration:none;color:var(--blue-d);padding:9px 16px;border-radius:999px;background:var(--bg);box-shadow:var(--raise-s);transition:box-shadow .15s}
+.back:hover{box-shadow:var(--press)}
+
+.hero{margin:26px 0 24px;padding:42px;border-radius:28px;background:var(--blue);color:#fff;box-shadow:var(--raise)}
+.hero h1{font-size:clamp(34px,6vw,54px);line-height:1.04;letter-spacing:-.045em;margin:0 0 16px}
+.lead{margin:0;max-width:600px;line-height:1.65;font-size:17px}
+.rot{display:inline-grid;overflow:hidden;vertical-align:bottom;border-bottom:3px solid #fff;font-weight:700}
+.rot .w{grid-area:1/1;opacity:0;transform:translateY(70%);transition:transform .5s,opacity .5s}
+.rot .w.on{opacity:1;transform:none}.rot .w.off{opacity:0;transform:translateY(-70%)}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+.cta a,.cta button{display:inline-flex;align-items:center;min-height:46px;padding:0 22px;border-radius:14px;font:inherit;font-weight:650;text-decoration:none;cursor:pointer}
+.cta a{background:#fff;color:var(--blue-d);border:0;box-shadow:4px 4px 12px rgba(7,24,60,.35)}
+.cta button{background:transparent;color:#fff;border:2px solid #fff;box-shadow:none}
+.cta button:hover{background:#fff;color:var(--blue-d)}
+
+.notice{display:flex;gap:10px;align-items:flex-start;margin:0 0 22px;padding:13px 18px;font-size:14px;border-radius:16px;background:#e3ecfb;box-shadow:var(--press)}
+.notice svg{flex:none;margin-top:2px}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:0 0 26px}
+.tile{grid-column:span 2;padding:22px;border-radius:24px;min-width:0}
+.js .tile{opacity:0;transform:scale(.93) translateY(12px);transition:opacity .5s var(--d,0ms),transform .5s var(--d,0ms)}
+.js .tile.in{opacity:1;transform:none}
+.tile h3{font-size:16px;margin:0 0 14px;letter-spacing:-.01em}
+.tile .note{margin:12px 0 0;font-size:12.5px;color:var(--muted)}
+.tile.blue{background:var(--blue);color:#fff;border-color:var(--blue)}.tile.blue .note{color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0}
+.stats dd{margin:0;font-size:clamp(30px,5vw,42px);font-weight:750;letter-spacing:-.03em;line-height:1.1}
+.stats dt{font-size:13px;order:2}.stats div{display:flex;flex-direction:column}
+.chart{width:100%;height:auto;display:block}
+.chart text{font-size:11px;fill:var(--muted)}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .ln{fill:none;stroke:var(--blue);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.chart .dot{fill:#fff;stroke:var(--blue);stroke-width:2.5;opacity:0}
+.js .tile.in .ln{animation:draw 1.6s .3s ease-out forwards}
+.js .tile.in .dot{animation:pop .3s forwards;animation-delay:calc(.3s + var(--k)*.26s)}
+@keyframes draw{to{stroke-dashoffset:0}}@keyframes pop{to{opacity:1}}
+.chart .ln{animation:none}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.steps li{display:flex;gap:14px;align-items:flex-start;font-size:14.5px}
+.steps b{display:block;font-size:15px}
+.n{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:var(--blue);background:var(--bg);box-shadow:var(--raise-s)}
+.shuffle{position:relative;height:178px;margin:0 28px 6px 0}
+.rv{position:absolute;inset:0 0 auto 0;height:140px;margin:0;padding:16px 18px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:var(--raise-s);
+transition:transform .55s cubic-bezier(.3,.8,.3,1),opacity .55s;display:flex;flex-direction:column;justify-content:space-between;color:var(--ink)}
+.rv[data-pos="0"]{z-index:3}.rv[data-pos="1"]{z-index:2;transform:translate(12px,16px) scale(.97);opacity:.9}
+.rv[data-pos="2"]{z-index:1;transform:translate(24px,32px) scale(.94);opacity:.75}
+.rv blockquote{margin:0;font-size:14.5px}.rv figcaption{font-size:13px;font-weight:650;color:var(--muted)}
+.tile .ghost{margin-top:8px}
+
+/* form */
+.panel{border-radius:28px;overflow:hidden}
+section{padding:28px 32px;border-bottom:1px solid var(--line)}
+h2{display:flex;align-items:center;gap:12px;font-size:20px;margin:0 0 20px;letter-spacing:-.02em}
+.ico{flex:none;width:38px;height:38px;border-radius:13px;display:grid;place-items:center;color:var(--blue);background:var(--bg);box-shadow:var(--raise-s)}
+.hint{font-size:14px;color:var(--muted);margin:-12px 0 20px 50px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 22px}.wide{grid-column:1/-1}
+label,legend{font-size:14px;font-weight:650}label{display:block}legend{padding:0}
+input:not([type=checkbox]),select,textarea{display:block;width:100%;margin-top:8px;padding:12px 15px;min-height:46px;border:1px solid rgba(34,87,179,.35);border-radius:14px;background:#e9f0fb;color:var(--ink);font:inherit;font-size:15px;box-shadow:var(--press);transition:box-shadow .15s,border-color .15s,background .15s}
+textarea{min-height:96px;resize:vertical}
+select{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' fill='none' stroke='%232257b3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center}
+input::placeholder,textarea::placeholder{color:#4d6591}
+input:not([type=checkbox]):focus,select:focus,textarea:focus{outline:none;background-color:#fff;border-color:var(--blue);box-shadow:var(--press),0 0 0 4px rgba(34,87,179,.25)}
+input:not([type=checkbox]):user-invalid{border-color:var(--danger)}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.choices{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.choice{display:flex;align-items:center;gap:9px;padding:9px 16px 9px 12px;min-height:44px;border-radius:999px;font-weight:550;cursor:pointer;background:var(--bg);border:1px solid #fff;box-shadow:var(--raise-s);transition:box-shadow .15s,background .15s,color .15s}
+.choice:hover{color:var(--blue-d)}
+.choice:has(input:checked){box-shadow:var(--press);background:#dbe7fa;color:var(--blue-d);border-color:rgba(34,87,179,.35)}
+.choice:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:3px}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;flex:none;width:20px;height:20px;margin:0;border-radius:7px;background:#e9f0fb;box-shadow:var(--press);display:grid;place-items:center;cursor:pointer}
+input[type=checkbox]::after{content:"";width:10px;height:6px;border:solid #fff;border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg) scale(0);transition:transform .12s}
+input[type=checkbox]:checked{background:var(--blue);box-shadow:2px 2px 6px var(--sd)}
+input[type=checkbox]:checked::after{transform:translateY(-1px) rotate(-45deg) scale(1)}
+small{display:block;margin-top:10px;color:var(--muted);font-size:13px}
+.actions{padding:24px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.actions p{margin:0;font-size:14px;color:var(--muted)}
+button{border:0;border-radius:14px;color:#fff;padding:13px 24px;min-height:48px;font:inherit;font-weight:650;cursor:pointer;background:var(--blue);box-shadow:6px 6px 14px var(--sd),-4px -4px 10px #fff;transition:box-shadow .15s,transform .15s}
+button:hover{transform:translateY(-1px);background:var(--blue-d)}
+button:active{transform:none;box-shadow:inset 3px 3px 8px rgba(7,24,60,.5)}
+button.ghost{color:var(--blue-d);background:var(--bg);box-shadow:var(--raise-s)}
+button.ghost:hover{background:#fff}button.ghost:active{box-shadow:var(--press)}
+button:disabled{opacity:.5;cursor:default;transform:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.error{color:var(--danger);margin:10px 0 0;font-size:14px;font-weight:600}
+.result{padding:32px}.result h2{font-size:24px;margin-bottom:8px}.result>p{margin:0;color:var(--muted)}
+.result dl{display:grid;grid-template-columns:minmax(130px,1fr) 2fr;margin:22px 0 26px;padding:8px 20px;border-radius:20px;background:#e9f0fb;box-shadow:var(--press)}
+.result dt,.result dd{padding:12px 0;border-bottom:1px solid var(--line)}
+.result dt{color:var(--muted);font-size:14px;padding-right:16px}.result dd{margin:0;overflow-wrap:anywhere;font-weight:550}
+.result dt:last-of-type,.result dd:last-of-type{border-bottom:0}
+
+/* tour */
+.tour-hl{outline:3px solid var(--blue);outline-offset:6px}
+.cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;transition:transform .6s cubic-bezier(.4,0,.2,1);filter:drop-shadow(2px 3px 3px rgba(7,24,60,.4))}
+.tip{position:fixed;z-index:61;left:50%;bottom:20px;transform:translateX(-50%);width:min(calc(100% - 28px),430px);padding:18px 20px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:0 14px 40px rgba(15,42,92,.35)}
+.tip p{margin:0 0 4px}.tip .c{font-size:13px;color:var(--muted);font-weight:650}.tip .t{font-size:16px;font-weight:600;margin-bottom:14px}
+.tip .b{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}.tip button{min-height:42px;padding:9px 18px}
+
+@supports not (backdrop-filter:blur(1px)){.glass{background:#f6f9fe}}
+@media (prefers-reduced-transparency:reduce){.glass{background:#f6f9fe;-webkit-backdrop-filter:none;backdrop-filter:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.js .tile{opacity:1;transform:none}.chart .ln{stroke-dashoffset:0}.chart .dot{opacity:1}}
+@media(max-width:760px){.tile{grid-column:1/-1}}
+@media(max-width:620px){
+.wrap{width:calc(100% - 28px)}header .wrap{padding:8px 8px 8px 14px}.brand{font-size:16px}
+.hero{padding:28px 22px;border-radius:22px}.lead{font-size:16px}
+.panel{border-radius:22px}section,.actions,.result{padding:22px 18px}.hint{margin-left:0}
+.grid{grid-template-columns:1fr}.actions{align-items:stretch;flex-direction:column}
+.result dl{grid-template-columns:1fr;padding:6px 16px}.result dt{border-bottom:0;padding-bottom:0}.result dd{padding-top:2px}}
+</style>
+</head>
+<body>
+<header><div class="wrap glass">
+<a class="brand" href="https://pinnacleanalytics.com.my/"><span class="logo" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-9 4 5 3-4 5 8z"/></svg></span>Pinnacle Analytics</a>
+<a class="back" href="https://pinnacleanalytics.com.my/">Company website</a>
+</div></header>
+<div class="wrap">
+<div class="hero">
+<h1>Interviewer Registration</h1>
+<p class="lead">Register your interest in part-time research assignments across <span class="sr">Malaysia</span><span class="rot" aria-hidden="true"><span class="w">Kuala Lumpur</span><span class="w">Selangor</span><span class="w">Penang</span><span class="w">Johor</span><span class="w">Sabah</span><span class="w">Sarawak</span></span>. Tell us where you can work, when you’re available, and what interviewing experience you have.</p>
+<div class="cta"><a href="#register">Start registration</a><button type="button" id="tour">Take a quick tour</button></div>
+</div>
+</div>
+<main class="wrap">
+<p class="notice" id="demo-note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span><strong>Demo only.</strong> Use fictional information. The preview stays on this page and nothing is sent or saved. Figures and reviews below are samples.</span></p>
+
+<div class="bento">
+<div class="tile blue" id="bento-stats"><h3>Our interviewer network</h3>
+<dl class="stats">
+<div><dd data-target="850" data-suffix="+">850+</dd><dt>active interviewers</dt></div>
+<div><dd data-target="16">16</dd><dt>states and territories</dt></div>
+<div><dd data-target="4.8" data-dec="1">4.8</dd><dt>average project rating</dt></div>
+</dl><p class="note">Sample figures for demo.</p></div>
+
+<div class="tile glass" id="chart"><h3>Assignments per month</h3>
+<svg class="chart" viewBox="0 0 320 156" role="img" aria-label="Line graph: assignments rose from 38 in June to 120 in November (sample data)">
+<line class="grid" x1="24" y1="130" x2="304" y2="130"/><line class="grid" x1="24" y1="90" x2="304" y2="90"/><line class="grid" x1="24" y1="50" x2="304" y2="50"/><line class="grid" x1="24" y1="10" x2="304" y2="10"/>
+<path class="ln" pathLength="1" d="M24 95.8L78.4 83.2L132.8 75.1L187.2 58.9L241.6 45.4L296 22"/>
+<circle class="dot" style="--k:0" cx="24" cy="95.8" r="5"/><circle class="dot" style="--k:1" cx="78.4" cy="83.2" r="5"/><circle class="dot" style="--k:2" cx="132.8" cy="75.1" r="5"/><circle class="dot" style="--k:3" cx="187.2" cy="58.9" r="5"/><circle class="dot" style="--k:4" cx="241.6" cy="45.4" r="5"/><circle class="dot" style="--k:5" cx="296" cy="22" r="5"/>
+<g text-anchor="middle"><text x="24" y="148">Jun</text><text x="78.4" y="148">Jul</text><text x="132.8" y="148">Aug</text><text x="187.2" y="148">Sep</text><text x="241.6" y="148">Oct</text><text x="296" y="148">Nov</text></g>
+</svg><p class="note">Sample data for demo.</p></div>
+
+<div class="tile glass" id="how"><h3>How it works</h3>
+<ol class="steps">
+<li><span class="n">1</span><span><b>Register</b>Share your area, languages and availability.</span></li>
+<li><span class="n">2</span><span><b>Get matched</b>We contact you when a project fits your area.</span></li>
+<li><span class="n">3</span><span><b>Start work</b>Receive a briefing, then begin your assignment.</span></li>
+</ol></div>
+
+<div class="tile glass" id="reviews"><h3>What interviewers say</h3>
+<div class="shuffle" aria-live="off">
+<figure class="rv"><blockquote>Clear briefings and on-time payment. I fit assignments around my weekdays.</blockquote><figcaption>Aina D., Selangor</figcaption></figure>
+<figure class="rv"><blockquote>The survey tablet was easy to learn, even though I was new to interviewing.</blockquote><figcaption>Raj K., Penang</figcaption></figure>
+<figure class="rv"><blockquote>Support staff answered my WhatsApp messages quickly during fieldwork.</blockquote><figcaption>Mei Ling T., Johor</figcaption></figure>
+</div>
+<button type="button" class="ghost" id="shuffle">Shuffle reviews</button><p class="note">Sample reviews for demo.</p></div>
+</div>
+
+<div class="panel glass">
+<form id="register" autocomplete="off" aria-describedby="demo-note">
+<section id="s-contact" aria-labelledby="contact"><h2 id="contact"><span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></span>Contact details</h2><p class="hint">Fields marked * are required.</p>
+<div class="grid">
+<label class="wide">Full name *<input name="fullName" required maxlength="120" placeholder="e.g. Aina Demo"></label>
+<label>Mobile number (WhatsApp) *<input type="tel" name="mobile" required maxlength="24" placeholder="e.g. +60 12 000 0000"></label>
+<label>Email address *<input type="email" name="email" required maxlength="160" placeholder="e.g. aina@example.com"></label>
+</div></section>
+<section aria-labelledby="coverage"><h2 id="coverage"><span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></span>Work coverage and availability</h2>
+<div class="grid">
+<label>Areas or states covered *<input name="area" required maxlength="160" placeholder="e.g. Kuala Lumpur, Selangor"></label>
+<label>Languages or dialects spoken *<input name="languages" required maxlength="160" placeholder="e.g. Malay, English, Cantonese"></label>
+<fieldset class="wide" id="avail"><legend>Availability *</legend><div class="choices">
+<label class="choice"><input type="checkbox" name="availability" value="Weekdays">Weekdays</label>
+<label class="choice"><input type="checkbox" name="availability" value="Weekends">Weekends</label>
+<label class="choice"><input type="checkbox" name="availability" value="Flexible">Flexible</label>
+</div><p id="availability-error" class="error" role="alert" hidden>Select at least one availability option.</p></fieldset>
+<label class="wide">Usual mode of transport<select name="transport"><option value="">Select an option</option><option>Car</option><option>Motorcycle</option><option>Public transport</option><option>Other</option></select></label>
+</div></section>
+<section aria-labelledby="experience"><h2 id="experience"><span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a3 3 0 01-3 3H8l-5 4V6a3 3 0 013-3h12a3 3 0 013 3z"/></svg></span>Interviewing experience</h2>
+<div class="grid">
+<fieldset class="wide"><legend>Interviewing methods you’ve used</legend><div class="choices">
+<label class="choice"><input type="checkbox" name="methods" value="Face-to-face">Face-to-face</label>
+<label class="choice"><input type="checkbox" name="methods" value="Phone (CATI)">Phone (CATI)</label>
+<label class="choice"><input type="checkbox" name="methods" value="Mall intercept">Mall intercept</label>
+<label class="choice"><input type="checkbox" name="methods" value="Household interviews">Household interviews</label>
+<label class="choice"><input type="checkbox" name="methods" value="Other">Other</label>
+</div><small>You can leave this blank if you’re new to interviewing.</small></fieldset>
+<label class="wide">Specialised areas or relevant experience<textarea name="expertise" maxlength="600" placeholder="e.g. Consumer surveys, healthcare, or mystery shopping"></textarea></label>
+<label class="wide">Comfortable using a tablet or survey app?<select name="tablet"><option value="">Select an option</option><option>Yes</option><option>No</option></select></label>
+</div></section>
+<div class="actions"><p>Review a sample submission before the client demo.</p><button type="submit" id="submit">Preview submission</button></div>
+</form>
+<div class="result" id="result" hidden>
+<h2 id="result-title" tabindex="-1">Submission preview</h2>
+<p>This is how the sample registration could appear to staff. No record was created.</p>
+<dl id="details"></dl>
+<button type="button" class="ghost" id="edit">Back to form</button>
+</div>
+</div></main>
+
+<svg class="cursor" id="cursor" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M4 2l16 9-7 2-3 7z" fill="#2257b3" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+<div class="tip" id="tip" role="dialog" aria-label="Quick tour" hidden>
+<p class="c" id="tip-count"></p><p class="t" id="tip-text"></p>
+<div class="b"><button type="button" class="ghost" id="tip-skip">Skip tour</button><button type="button" class="ghost" id="tip-back">Back</button><button type="button" id="tip-next">Next</button></div>
+</div>
+
+<script>
+document.documentElement.classList.add('js');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* word rotator */
+const words = [...document.querySelectorAll('.rot .w')];
+let wi = 0; words[0].classList.add('on');
+if (!reduce) setInterval(() => {
+  const old = words[wi]; wi = (wi + 1) % words.length;
+  words.forEach(w => w.classList.remove('on', 'off'));
+  old.classList.add('off'); words[wi].classList.add('on');
+}, 2400);
+
+/* count-up */
+const fmt = new Intl.NumberFormat('en-MY');
+const setVal = (el, v) => {
+  const d = +(el.dataset.dec || 0);
+  el.textContent = (d ? v.toFixed(d) : fmt.format(Math.round(v))) + (el.dataset.suffix || '');
+};
+const counters = [...document.querySelectorAll('[data-target]')];
+if (!reduce) counters.forEach(el => setVal(el, 0));
+function countUp(el) {
+  const target = +el.dataset.target;
+  if (reduce) return setVal(el, target);
+  const start = performance.now(), dur = 1500;
+  (function frame(now) {
+    const p = Math.min((now - start) / dur, 1);
+    setVal(el, target * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(frame);
+  })(start);
+}
+
+/* bento build */
+const tiles = [...document.querySelectorAll('.tile')];
+const io = new IntersectionObserver(entries => entries.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in');
+  e.target.querySelectorAll('[data-target]').forEach(countUp);
+  io.unobserve(e.target);
+}), { threshold: .2 });
+tiles.forEach((t, i) => { t.style.setProperty('--d', (i % 2 * 130) + 'ms'); io.observe(t); });
+
+/* chart draw: stroke offset animation (CSS) needs the keyframe on the line once visible */
+const style = document.createElement('style');
+style.textContent = '.js .tile.in .chart .ln{animation:draw 1.6s .3s ease-out forwards}';
+document.head.append(style);
+
+/* review shuffle */
+const cards = [...document.querySelectorAll('.rv')];
+let order = cards.map((_, i) => i), paused = false;
+const paint = () => order.forEach((ci, pos) => {
+  cards[ci].dataset.pos = pos;
+  cards[ci].setAttribute('aria-hidden', pos ? 'true' : 'false');
+});
+const shuffle = () => { order.push(order.shift()); paint(); };
+paint();
+const box = document.querySelector('.shuffle');
+box.addEventListener('mouseenter', () => paused = true);
+box.addEventListener('mouseleave', () => paused = false);
+document.querySelector('#shuffle').addEventListener('click', shuffle);
+if (!reduce) setInterval(() => { if (!paused && !document.hidden) shuffle(); }, 4500);
+
+/* cursor tour */
+const steps = [
+  ['#bento-stats', 'A quick look at our interviewer network.'],
+  ['#chart', 'Assignment volume has grown every month.'],
+  ['#reviews', 'See what other interviewers say. Shuffle to read more.'],
+  ['#s-contact', 'Start here: your name, mobile number and email.'],
+  ['#avail', 'Tick every time you can work. Pick at least one.'],
+  ['#submit', 'Then preview your submission. Nothing is saved.']
+];
+const tip = document.querySelector('#tip'), cursor = document.querySelector('#cursor');
+const tipText = document.querySelector('#tip-text'), tipCount = document.querySelector('#tip-count');
+const back = document.querySelector('#tip-back'), next = document.querySelector('#tip-next');
+let ti = 0, prevFocus = null, current = null;
+function place() {
+  if (!current) return;
+  const r = current.getBoundingClientRect();
+  const x = Math.round(r.left + Math.min(r.width * .6, r.width - 24));
+  const y = Math.round(r.top + Math.min(r.height / 2, 70));
+  cursor.style.transform = `translate(${x}px,${y}px)`;
+}
+function showStep(i) {
+  current?.classList.remove('tour-hl');
+  ti = i; current = document.querySelector(steps[i][0]);
+  current.classList.add('tour-hl');
+  tipText.textContent = steps[i][1];
+  tipCount.textContent = `Step ${i + 1} of ${steps.length}`;
+  back.disabled = i === 0;
+  next.textContent = i === steps.length - 1 ? 'Finish' : 'Next';
+  current.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+  place();
+}
+function startTour() {
+  prevFocus = document.activeElement;
+  cursor.style.transform = `translate(${innerWidth - 70}px,${innerHeight - 130}px)`;
+  cursor.hidden = false; tip.hidden = false;
+  requestAnimationFrame(() => showStep(0));
+  next.focus();
+}
+function endTour() {
+  current?.classList.remove('tour-hl'); current = null;
+  tip.hidden = true; cursor.hidden = true;
+  prevFocus?.focus();
+}
+document.querySelector('#tour').addEventListener('click', startTour);
+document.querySelector('#tip-skip').addEventListener('click', endTour);
+back.addEventListener('click', () => showStep(ti - 1));
+next.addEventListener('click', () => ti < steps.length - 1 ? showStep(ti + 1) : endTour());
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !tip.hidden) endTour(); });
+let ticking = false;
+const follow = () => { if (tip.hidden || ticking) return; ticking = true; requestAnimationFrame(() => { place(); ticking = false; }); };
+addEventListener('scroll', follow, { passive: true });
+addEventListener('resize', follow);
+
+/* form */
+const form = document.querySelector('#register');
+const result = document.querySelector('#result');
+const details = document.querySelector('#details');
+const availability = [...form.querySelectorAll('[name="availability"]')];
+const availabilityError = document.querySelector('#availability-error');
+const fields = [
+  ['fullName', 'Full name'], ['mobile', 'Mobile number'], ['email', 'Email'],
+  ['area', 'Work areas'], ['languages', 'Languages'], ['availability', 'Availability'],
+  ['transport', 'Transport'], ['methods', 'Interviewing methods'],
+  ['expertise', 'Experience'], ['tablet', 'Tablet or survey app']
+];
+for (const input of form.querySelectorAll('input[required]')) {
+  input.addEventListener('input', () => {
+    input.setCustomValidity(input.value && !input.value.trim() ? 'Please enter a value.' : '');
+  });
+}
+for (const option of availability) {
+  option.addEventListener('change', () => {
+    if (availability.some(input => input.checked)) {
+      availabilityError.hidden = true;
+      availability[0].removeAttribute('aria-describedby');
+      availability[0].removeAttribute('aria-invalid');
+    }
+  });
+}
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const data = new FormData(form);
+  if (!data.has('availability')) {
+    availabilityError.hidden = false;
+    availability[0].setAttribute('aria-describedby', 'availability-error');
+    availability[0].setAttribute('aria-invalid', 'true');
+    availability[0].focus();
+    return;
+  }
+  details.replaceChildren();
+  for (const [name, label] of fields) {
+    const term = document.createElement('dt');
+    const value = document.createElement('dd');
+    term.textContent = label;
+    value.textContent = data.getAll(name).map(entry => entry.trim()).filter(Boolean).join(', ') || 'Not provided';
+    details.append(term, value);
+  }
+  form.hidden = true;
+  result.hidden = false;
+  document.querySelector('#result-title').focus();
+});
+document.querySelector('#edit').addEventListener('click', () => {
+  result.hidden = true;
+  form.hidden = false;
+  form.elements.fullName.focus();
+});
+</script>
+</body>
+</html>
